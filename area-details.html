@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Area Wise Details - AquaConnect</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Poppins', sans-serif; }
+body { margin: 0; background: #f0f9ff; }
+header { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+.container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+.search { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 20px; box-sizing: border-box; }
+.table-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { background: #0077b6; color: white; padding: 14px; text-align: left; position: sticky; top: 0; }
+td { padding: 12px 14px; border-bottom: 1px solid #eee; font-size: 14px; }
+tr:hover { background: #f8fbff; }
+.status { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.available { background: #d1fae5; color: #065f46; }
+.delayed { background: #fee2e2; color: #991b1b; }
+a.call { color: #0077b6; font-weight: 600; text-decoration: none; }
+</style>
+</head>
+<body>
+<header>
+<div style="font-size:22px; font-weight:700; color:#0077b6;">💧 AquaConnect</div>
+<div>
+<a href="home.html" style="text-decoration:none; color:#0077b6; font-weight:600; margin-right:15px;">Home</a>
+<a href="#" onclick="logoutUser(); return false;" style="text-decoration:none; color:#0077b6; font-weight:600;">Logout</a>
+</div>
+</header>
+
+<div class="container">
+<input type="text" id="search" class="search" placeholder="Search area... Ex: anekal, jayanagar" onkeyup="filterData()">
+
+<div class="table-box">
+<table>
+<thead>
+<tr><th>Area</th><th>Timing</th><th>Supplier</th><th>Mobile</th><th>Status</th></tr>
+</thead>
+<tbody id="tbody"><tr><td colspan="5">Loading...</td></tr></tbody>
+</table>
+</div>
+</div>
+
+<script>
+let allData = [];
+async function load(){
+  let res = await fetch('data.json');
+  allData = await res.json();
+  show(allData);
+}
+function show(data){
+  let html = "";
+  data.forEach(d=>{
+    let cls = d.status.toLowerCase().includes('delay') ? 'delayed' : 'available';
+    html += `<tr>
+      <td><b>${d.area.toUpperCase()}</b></td>
+      <td>${d.timing}</td>
+      <td>${d.supplier}</td>
+      <td><a class="call" href="tel:${d.mobile}">${d.mobile}</a></td>
+      <td><span class="status ${cls}">${d.status}</span></td>
+    </tr>`;
+  });
+  document.getElementById('tbody').innerHTML = html;
+}
+function filterData(){
+  let k = document.getElementById('search').value.toLowerCase();
+  let f = allData.filter(x=>x.area.toLowerCase().includes(k));
+  show(f);
+}
+load();
+</script>
+
+<script src="auth.js"></script>
+<script>
+requireAuth();
+</script>
+</body>
+</html>

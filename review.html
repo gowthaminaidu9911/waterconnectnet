@@ -1,0 +1,98 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review Box - AquaConnect</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Poppins', sans-serif; }
+body { margin: 0; background: #f0f9ff; }
+header { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.container { max-width: 900px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+@media(max-width:768px){ .container{grid-template-columns:1fr;} }
+.card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+input, select, textarea { width: 100%; padding: 12px; margin: 8px 0 15px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; }
+button { width: 100%; padding: 14px; border: none; background: #0077b6; color: white; border-radius: 12px; font-weight: 600; cursor: pointer; }
+.stars { font-size: 28px; cursor: pointer; }
+.stars span.active { color: #f59e0b; }
+.review-item { background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 12px; border-left: 4px solid #f59e0b; }
+.no-data { text-align: center; color: #888; padding: 40px 0; }
+</style>
+</head>
+<body>
+<header>
+<div style="font-size:24px; font-weight:700; color:#0077b6;">💧 AquaConnect</div>
+<div><a href="home.html" style="text-decoration:none; color:#0077b6; font-weight:600; margin-right:15px;">Home</a><a href="complaint.html" style="text-decoration:none; color:#0077b6; margin-right:15px;">Complaints</a><a href="#" onclick="logoutUser(); return false;" style="text-decoration:none; color:#0077b6; font-weight:600;">Logout</a></div>
+</header>
+
+<div class="container">
+<div class="card">
+<h3 style="color:#0077b6;">⭐ Give Review (Areawise)</h3>
+<input type="text" id="area" placeholder="Your Area - Ex: Anekal">
+<select id="rating">
+<option value="">Select Rating</option>
+<option value="5">⭐⭐⭐⭐⭐ - Excellent</option>
+<option value="4">⭐⭐⭐⭐ - Good</option>
+<option value="3">⭐⭐⭐ - Average</option>
+<option value="2">⭐⭐ - Poor</option>
+<option value="1">⭐ - Very Poor</option>
+</select>
+<textarea id="reviewText" rows="3" placeholder="Write your review about water supply..."></textarea>
+<div class="stars" id="starDisplay"><span onclick="setStar(1)">☆</span><span onclick="setStar(2)">☆</span><span onclick="setStar(3)">☆</span><span onclick="setStar(4)">☆</span><span onclick="setStar(5)">☆</span></div>
+<button onclick="submitReview()" style="margin-top:15px;">Submit Review</button>
+</div>
+
+<div class="card">
+<h3 style="color:#0077b6;">📋 All Reviews</h3>
+<div id="reviewList"></div>
+</div>
+</div>
+
+<script>
+let currentRating = 0;
+function setStar(n){
+  currentRating = n;
+  document.querySelectorAll('#starDisplay span').forEach((s,i)=>{
+    s.textContent = i < n ? '★' : '☆';
+    s.className = i < n ? 'active' : '';
+  });
+  document.getElementById('rating').value = n;
+}
+
+function loadReviews(){
+  let reviews = JSON.parse(localStorage.getItem("aquaReviews") || "[]");
+  let list = document.getElementById("reviewList");
+  if(reviews.length === 0){
+    list.innerHTML = `<div class="no-data"><span style="font-size:50px;">⭐</span><p>No reviews yet</p><small>Be first to review your area</small></div>`;
+    return;
+  }
+  list.innerHTML = "";
+  reviews.reverse().forEach(r=>{
+    let stars = '★'.repeat(r.rating) + '☆'.repeat(5-r.rating);
+    list.innerHTML += `<div class="review-item"><b>${r.area.toUpperCase()}</b> <span style="color:#f59e0b;">${stars}</span><p style="margin:8px 0; font-size:14px;">${r.text}</p><small style="color:#666;">${r.date}</small></div>`;
+  });
+}
+
+function submitReview(){
+  let area = document.getElementById("area").value.trim();
+  let rating = document.getElementById("rating").value;
+  let text = document.getElementById("reviewText").value.trim();
+  if(!area || !rating || !text){ alert("please fill all boxes"); return; }
+  let reviews = JSON.parse(localStorage.getItem("aquaReviews") || "[]");
+  reviews.push({area, rating: parseInt(rating), text, date: new Date().toLocaleString()});
+  localStorage.setItem("aquaReviews", JSON.stringify(reviews));
+  document.getElementById("area").value = ""; document.getElementById("reviewText").value = "";
+  setStar(0);
+  alert("Review Submitted!");
+  loadReviews();
+}
+loadReviews();
+</script>
+
+<script src="auth.js"></script>
+<script>
+requireAuth();
+</script>
+</body>
+</html>

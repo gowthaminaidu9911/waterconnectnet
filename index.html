@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AquaConnect - Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>AquaConnect</h1>
+<h2>Login</h2>
+<form id="loginForm">
+<label>Username:</label><br>
+<input type="text" id="username" name="username" required><br><br>
+<label>Password:</label><br>
+<input type="password" id="password" name="password" required><br><br>
+<p id="message" style="color:#d00000; font-weight:600; display:none;"></p>
+<input type="submit" value="Login">
+</form>
+
+<p>New user ? <a href="register.html">Register Here</a></p>
+
+<script src="auth.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const messageEl = document.getElementById("message");
+
+if (params.get("registered") === "1") {
+  messageEl.style.color = "#065f46";
+  messageEl.textContent = "Registration successful! Please login.";
+  messageEl.style.display = "block";
+}
+
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+
+  const user = validateLogin(username, password);
+  if (user) {
+    setCurrentUser(user.username);
+    window.location.href = "home.html";
+  } else {
+    messageEl.style.color = "#d00000";
+    messageEl.textContent = "Invalid username or password.";
+    messageEl.style.display = "block";
+  }
+});
+</script>
+
+</body>
+</html>

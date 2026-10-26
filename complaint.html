@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complaint Box - AquaConnect</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Poppins', sans-serif; }
+body { margin: 0; background: #f0f9ff; }
+header { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+.container { max-width: 700px; margin: 30px auto; padding: 0 20px; }
+.card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); margin-bottom: 25px; }
+.card h3 { color: #0077b6; margin-top: 0; text-align: center; font-size: 22px; }
+input, select, textarea { width: 100%; padding: 13px 15px; margin: 10px 0 15px; border-radius: 12px; border: 1px solid #ddd; outline: none; box-sizing: border-box; font-size: 14px; }
+input:focus, select:focus, textarea:focus { border-color: #0077b6; }
+button { width: 100%; padding: 14px; border: none; background: #0077b6; color: white; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 15px; }
+button:hover { background: #023e8a; }
+.complaint-item { background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 12px; border-left: 4px solid #0077b6; }
+.status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #fef3c7; color: #92400e; }
+.no-data { text-align: center; color: #888; padding: 50px 0; }
+.no-data .icon { font-size: 60px; display: block; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+<div style="font-size:24px; font-weight:700; color:#0077b6;">💧 AquaConnect</div>
+<div>
+<a href="home.html" style="text-decoration:none; color:#0077b6; font-weight:600; margin-right:15px;">Home</a>
+<a href="review.html" style="text-decoration:none; color:#0077b6; font-weight:600; margin-right:15px;">Reviews</a>
+<a href="#" onclick="logoutUser(); return false;" style="text-decoration:none; color:#0077b6; font-weight:600;">Logout</a>
+</div>
+</header>
+
+<div class="container">
+
+<!-- TOP: WRITE COMPLAINT HERE -->
+<div class="card">
+<h3>Write Complaint Here</h3>
+<input type="text" id="area" placeholder="Enter Your Area">
+<select id="issue">
+<option value="">Select Issue Type</option>
+<option>No Water Supply</option>
+<option>Low Pressure</option>
+<option>Dirty Water</option>
+<option>Water Leakage</option>
+<option>Tanker Not Arrived</option>
+<option>Other</option>
+</select>
+<textarea id="desc" rows="4" placeholder="Describe your issue in detail"></textarea>
+<input type="text" id="mobile" placeholder="Enter Mobile Number">
+<button onclick="raiseComplaint()">Submit Complaint</button>
+</div>
+
+<!-- BOTTOM: COMPLAINT LIST -->
+<div class="card">
+<h3>Your Complaints</h3>
+<div id="complaintList"></div>
+</div>
+
+</div>
+
+<script>
+function loadComplaints(){
+  let complaints = JSON.parse(localStorage.getItem("aquaComplaints") || "[]");
+  let listDiv = document.getElementById("complaintList");
+  if(complaints.length === 0){
+    listDiv.innerHTML = `<div class="no-data"><span class="icon">📭</span><h4>No complaints are raised till now</h4><p>Your raised complaints will appear here</p></div>`;
+    return;
+  }
+  listDiv.innerHTML = "";
+  complaints.slice().reverse().forEach(c => {
+    listDiv.innerHTML += `
+      <div class="complaint-item">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <b>${c.area.toUpperCase()}</b>
+          <span class="status-badge">${c.status}</span>
+        </div>
+        <p style="margin:10px 0 5px; font-size:14px;"><b>${c.issue}</b> - ${c.desc}</p>
+        <small style="color:#666;">Mobile: ${c.mobile} | Date: ${c.date}</small>
+      </div>`;
+  });
+}
+
+function raiseComplaint(){
+  let area = document.getElementById("area").value.trim();
+  let issue = document.getElementById("issue").value;
+  let desc = document.getElementById("desc").value.trim();
+  let mobile = document.getElementById("mobile").value.trim();
+  if(!area || !issue || !desc || !mobile){
+    alert("Please fill all fields");
+    return;
+  }
+  let complaints = JSON.parse(localStorage.getItem("aquaComplaints") || "[]");
+  complaints.push({
+    area, issue, desc, mobile,
+    status: "Pending",
+    date: new Date().toLocaleString()
+  });
+  localStorage.setItem("aquaComplaints", JSON.stringify(complaints));
+  document.getElementById("area").value = "";
+  document.getElementById("issue").value = "";
+  document.getElementById("desc").value = "";
+  document.getElementById("mobile").value = "";
+  alert("Complaint Submitted Successfully");
+  loadComplaints();
+}
+
+loadComplaints();
+</script>
+
+<script src="auth.js"></script>
+<script>
+requireAuth();
+</script>
+
+</body>
+</html>

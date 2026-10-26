@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AquaConnect - Smart Water Info</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Poppins', sans-serif; }
+body { margin: 0; background: #f0f9ff; }
+header { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; }
+.logo { font-size: 26px; font-weight: 700; color: #0077b6; }
+.logo span { color: #00b4d8; }
+.hero { background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%); color: white; padding: 60px 20px 80px; text-align: center; border-radius: 0 0 40px 40px; }
+.hero h2 { font-size: 48px; margin: 0; font-weight: 700; }
+.hero p { font-size: 18px; opacity: 0.9; margin-top: 10px; }
+.search-card { background: white; max-width: 650px; margin: -40px auto 0; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; gap: 12px; }
+.search-card input { flex: 1; padding: 16px 20px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; outline: none; }
+.search-card input:focus { border-color: #0077b6; }
+.search-card button { padding: 16px 30px; border-radius: 12px; border: none; background: #0077b6; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.search-card button:hover { background: #023e8a; transform: translateY(-2px); }
+.features { display: flex; justify-content: center; gap: 25px; padding: 50px 20px; flex-wrap: wrap; }
+.feature-card { background: white; width: 280px; padding: 25px; border-radius: 16px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+.feature-card:hover { transform: translateY(-8px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+.icon { font-size: 40px; margin-bottom: 10px; }
+.result { display: none; background: white; max-width: 650px; margin: 20px auto; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); animation: slideUp 0.5s ease; }
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.result-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; }
+.badge { background: #d1fae5; color: #065f46; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.info-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
+.info-row span:first-child { color: #666; }
+.info-row span:last-child { font-weight: 600; color: #111; }
+.call-btn { display: block; background: #0077b6; color: white; text-align: center; padding: 14px; border-radius: 12px; text-decoration: none; margin-top: 20px; font-weight: 600; transition: 0.3s; }
+.call-btn:hover { background: #023e8a; }
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">💧 Aqua<span>Connect</span></div>
+<div style="display:flex; align-items:center; gap:15px;">
+<span id="welcomeUser" style="color:#333; font-weight:600;"></span>
+<a href="#" onclick="logoutUser(); return false;" style="text-decoration:none; color:#0077b6; font-weight:600;">Logout</a>
+</div>
+</header>
+
+<div class="hero">
+<h2>Water Supply Made Simple</h2>
+<p>Enter your area name to know exact water timing & supplier details</p>
+</div>
+
+<div class="search-card">
+<input type="text" id="areaInput" placeholder="Enter Area - Ex: Anekal">
+<button onclick="searchWater()"> Search</button>
+</div>
+
+<div class="result" id="resultBox">
+<div class="result-header">
+<h3 id="areaName" style="margin:0; color:#0077b6;"></h3>
+<span class="badge" id="status"></span>
+</div>
+<div style="margin-top:20px;">
+<div class="info-row"><span>⏰ Water Timing</span><span id="timing"></span></div>
+<div class="info-row"><span>👤 Supplier Name</span><span id="supplier"></span></div>
+<div class="info-row"><span>📞 Mobile Number</span><span id="mobile"></span></div>
+</div>
+<a id="callLink" href="#" class="call-btn">📞 Call Supplier Now</a>
+</div>
+<div class="features" style="display:flex; justify-content:center; gap:25px; padding:50px 20px; flex-wrap:wrap;">
+  <div class="feature-card" onclick="window.location.href='complaint.html'" style="cursor:pointer;">
+    <div class="icon">👤</div>
+    <h4>complaint raise</h4>
+    <p style="color:#666; font-size:14px;">Know exactly when water will arrive in your area</p>
+  </div>
+ <a href="area-details.html" style="text-decoration:none; color:inherit;">
+<div class="feature-card" style="cursor:pointer;">
+  <div class="icon">📍</div>
+  <h4>Area wise Details</h4>
+  <p style="color:#666; font-size:14px;">View all area data from data.json</p>
+</div>
+</a>
+  <a href="contact.html" style="text-decoration:none; color:inherit;">
+<div class="feature-card" style="cursor:pointer; width:280px; background:white; padding:25px; border-radius:16px; text-align:center; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
+  <div class="icon" style="font-size:40px;">📞</div>
+  <h4>Direct Contact</h4>
+  <p style="color:#666; font-size:14px;">Click to view area wise mobile numbers</p>
+</div>
+</a>
+ <div class="feature-card" onclick="window.location.href='review.html'" style="cursor:pointer;">
+    <div class="icon">⭐</div>
+    <h4>Review Box</h4>
+    <p style="color:#666; font-size:14px;">Give Review About Your Area Water Supply</p>
+  </div>
+</div>
+
+<script>
+async function searchWater(){
+  let area = document.getElementById("areaInput").value.toLowerCase().trim();
+  if(!area) return alert("Area name pettu");
+  try{
+    const res = await fetch('data.json');
+    const allData = await res.json();
+    const found = allData.find(i => i.area.toLowerCase() === area);
+    if(found){
+      document.getElementById("areaName").innerText = found.area.toUpperCase();
+      document.getElementById("timing").innerText = found.timing;
+      document.getElementById("supplier").innerText = found.supplier;
+      document.getElementById("mobile").innerText = found.mobile;
+      document.getElementById("status").innerText = found.status;
+      document.getElementById("callLink").href = "tel:"+found.mobile;
+      document.getElementById("resultBox").style.display = "block";
+      document.getElementById("resultBox").scrollIntoView({behavior:'smooth'});
+    } else { alert("Data not found. Try: anekal, chandapura, attibele"); }
+  } catch(e){ alert("Could not load data.json. Make sure it is in the same folder and the app is served over http(s)."); }
+}
+</script>
+
+<script src="auth.js"></script>
+<script>
+requireAuth();
+const currentUser = getCurrentUser();
+if (currentUser) {
+  document.getElementById("welcomeUser").textContent = "Hi, " + currentUser;
+}
+</script>
+
+</body>
+</html>

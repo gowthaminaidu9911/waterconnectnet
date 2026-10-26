@@ -1,0 +1,22 @@
+[
+  {"area": "anekal", "timing": "Morning 6:00 AM - 8:00 AM", "supplier": "SR Tanker", "mobile": "9876543210", "status": "Today Available"},
+  {"area": "chandapura", "timing": "Evening 5:00 PM - 7:00 PM", "supplier": "Chandapura Water Board", "mobile": "9123456789", "status": "Today Available"},
+  {"area": "attibele", "timing": "Morning 7:30 AM - 9:30 AM", "supplier": "Suresh Tankers", "mobile": "9988776655", "status": "Available"},
+  {"area": "jigani", "timing": "Afternoon 2:00 PM - 4:00 PM", "supplier": "Jigani Municipality", "mobile": "9000011111", "status": "Available"},
+  {"area": "electronic city", "timing": "Morning 5:00 AM - 6:30 AM", "supplier": "BWSSB", "mobile": "9112233445", "status": "Available"},
+  {"area": "bommanahalli", "timing": "Morning 6:30 AM - 8:30 AM", "supplier": "Kaveri Water Service", "mobile": "9845012345", "status": "Available"},
+  {"area": "btm layout", "timing": "Evening 6:00 PM - 8:00 PM", "supplier": "BTM Water Suppliers", "mobile": "9845098765", "status": "Available"},
+  {"area": "jayanagar", "timing": "Morning 5:00 AM - 7:00 AM", "supplier": "BWSSB Jayanagar", "mobile": "9886012345", "status": "Available"},
+  {"area": "jp nagar", "timing": "Morning 6:00 AM - 8:00 AM", "supplier": "JP Nagar Tankers", "mobile": "9886098765", "status": "Available"},
+  {"area": "koramangala", "timing": "Morning 7:00 AM - 9:00 AM", "supplier": "Aqua Fast Tankers", "mobile": "9731012345", "status": "Available"},
+  {"area": "hsr layout", "timing": "Morning 6:00 AM - 8:00 AM", "supplier": "HSR Water Board", "mobile": "9731098765", "status": "Available"},
+  {"area": "whitefield", "timing": "Evening 5:30 PM - 7:30 PM", "supplier": "Whitefield Tankers", "mobile": "9620012345", "status": "Available"},
+  {"area": "marathahalli", "timing": "Morning 6:00 AM - 8:00 AM", "supplier": "Marathahalli Suppliers", "mobile": "9620098765", "status": "Available"},
+  {"area": "indiranagar", "timing": "Morning 5:30 AM - 7:00 AM", "supplier": "Indiranagar Water", "mobile": "9844012345", "status": "Available"},
+  {"area": "yelahanka", "timing": "Morning 6:00 AM - 8:00 AM", "supplier": "Yelahanka BWSSB", "mobile": "9844098765", "status": "Available"},
+  {"area": "hebbal", "timing": "Morning 7:00 AM - 9:00 AM", "supplier": "Hebbal Tankers", "mobile": "9900012345", "status": "Available"},
+  {"area": "banashankari", "timing": "Evening 5:00 PM - 7:00 PM", "supplier": "Banashankari Water", "mobile": "9900098765", "status": "Available"},
+  {"area": "malleshwaram", "timing": "Morning 5:00 AM - 6:30 AM", "supplier": "Malleshwaram Supply", "mobile": "9945012345", "status": "Available"},
+  {"area": "rajajinagar", "timing": "Morning 6:00 AM - 8:00 AM", "supplier": "Rajajinagar Tankers", "mobile": "9945098765", "status": "Available"},
+  {"area": "sarjapur", "timing": "Evening 6:00 PM - 8:30 PM", "supplier": "Sarjapur Tankers", "mobile": "9611012345", "status": "Delayed Today"}
+]
